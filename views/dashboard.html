@@ -182,7 +182,7 @@
                                                                 <div class="col-md-9">
                                                                     <div class="mt-checkbox-inline">
                                                                         <label class="mt-checkbox" ng-repeat = "item in roles">
-                                                                            <input type="checkbox" checkbox-group> {{item.role}}
+                                                                            <input type="checkbox" checkbox-group  ng-if="item.id ===6"> {{item.role}}
                                                                             <span></span>
                                                                         </label>
                                                                     </div>

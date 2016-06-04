@@ -93,7 +93,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 ------------------------------------*/
 
 .factory('users', function($resource){
-    var resource = $resource('http://api.japher.org/users/:id', {id: '@id'}, {
+    var resource = $resource('http://localhost:8000/users/:id', {id: '@id'}, {
         update: {method: 'PUT'}
     });
     return {
@@ -113,7 +113,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 })
 
 .factory('mainInfo', function($http) { 
-    return  $http.get('http://api.japher.org/api/protected');
+    return  $http.get('http://localhost:8000/api/protected');
 })
 
 /* Setup App Main Controller */
@@ -134,6 +134,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         $scope.roles = response.data.roles;
         store.set('allgiftedmathuser',$scope.user);
         $scope.profile = store.get('profile');
+        $location.path('/dashboard');
     });
 
     $scope.login = function() {
@@ -151,16 +152,16 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         }, function(profile, token) {
             store.set('profile', profile);
             store.set('token', token);
-            $http.get('http://api.japher.org/api/protected').then(function(response) {
+            $http.get('http://localhost:8000/api/protected').then(function(response) {
                 //$rootScope.user = response.data;
                 store.set('allgiftedmathuser', response.data.user);
                 $scope.user = store.get('allgiftedmathuser');
                 $scope.profile = store.get('profile');
-                $location.path('/dashboard');
                 $scope.roles = response.data.roles;
                 $scope.houses = response.data.houses;
                 $scope.courses = response.data.courses;
                 $scope.statuses = response.data.statuses;
+                $location.path('/dashboard');
             });
         }, function(error) {
            console.log(error);
