@@ -1,0 +1,7 @@
+#loginbtn {
+	width: 6em;
+}
+
+#loginbtn a:hover {
+	text-decoration: none;
+}

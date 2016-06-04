@@ -1,0 +1,209 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title"> {{user.name || 'User'}}'s Todo </h3>
+<!-- END PAGE HEADER-->
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="todo-ui">
+            <!-- BEGIN TODO CONTENT -->
+            <div class="todo-content">
+                <div class="portlet light">
+                    <!-- PROJECT HEAD -->
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-bar-chart font-green hide"></i>
+                            <span class="caption-helper">ENROLLED CLASSES</span> &nbsp;
+                            <span class="caption-subject font-green bold uppercase" ng-repeat="class in user.enrolled_classes">| {{class.description}} |</span>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn green btn-circle btn-sm" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true"> MANAGE
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> New Task </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#"> Pending
+                                            <span class="badge badge-danger"> 4 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Completed
+                                            <span class="badge badge-success"> 12 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"> Overdue
+                                            <span class="badge badge-warning"> 9 </span>
+                                        </a>
+                                    </li>
+                                    <li class="divider"> </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="i"></i> Delete Project </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end PROJECT HEAD -->
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-4">
+                                <div style="min-height: 600px;">
+                                    <div class="todo-tasklist">
+                                        <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-repeat="task in user.incompletetests">
+                                            <img class="todo-userpic pull-left" src="{{settings.assetsPath}}/pages/media/users/avatar1.jpg" width="27px" height="27px">
+                                            <div class="todo-tasklist-item-title"> {{task.test}}</div>
+                                            <div class="todo-tasklist-item-text"> {{task.description}} </div>
+                                            <div class="todo-tasklist-controls pull-left">
+                                                <span class="todo-tasklist-date">
+                                                    <i class="fa fa-calendar"></i> {{task.due_time}} </span>
+                                                <span class="todo-tasklist-badge badge badge-roundless">Urgent</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="todo-tasklist-devider"> </div>
+                            <div class="col-md-7 col-sm-8">
+                                <div style="min-height: 600px;">
+                                    <form action="#" class="form-horizontal">
+                                        <!-- TASK HEAD -->
+                                        <div class="form">
+                                            <div class="form-group">
+                                                <div class="col-md-8 col-sm-8">
+                                                    <div class="todo-taskbody-user">
+                                                        <img class="todo-userpic pull-left" src="{{settings.assetsPath}}/pages/media/users/{{user.image ||'avatar3.jpg'}}" width="50px" height="50px">
+                                                        <span class="todo-username pull-left">{{user.firstname}} {{user.lastname}}</span>
+                                                        <button type="button" class="todo-username-btn btn btn-circle btn-default btn-xs">&nbsp;edit&nbsp;</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4">
+                                                    <div class="todo-taskbody-date pull-right">
+                                                        <button type="button" class="todo-username-btn btn btn-circle btn-default btn-xs">&nbsp; Complete &nbsp;</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END TASK HEAD -->
+                                            <!-- TASK TITLE -->
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Task Title... (for only personal tasks)"> </div>
+                                            </div>
+                                            <!-- TASK DESC -->
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control todo-taskbody-taskdesc" rows="8" placeholder="Task Description..."></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- END TASK DESC -->
+                                            <!-- TASK DUE DATE -->
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        <input type="text" class="form-control todo-taskbody-due" placeholder="Due Date..."> </div>
+                                                </div>
+                                            </div>
+                                            <!-- TASK TAGS -->
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <input type="text" class="form-control todo-taskbody-tags" placeholder="Tags..." value="Pending, Requested"> </div>
+                                            </div>
+                                            <!-- TASK TAGS -->
+                                            <div class="form-actions right todo-form-actions">
+                                                <button class="btn btn-circle btn-sm green">Save Changes</button>
+                                                <button class="btn btn-circle btn-sm btn-default">Cancel</button>
+                                            </div>
+                                        </div>
+                                        <div class="tabbable-line">
+                                            <ul class="nav nav-tabs ">
+                                                <li class="active">
+                                                    <a href="#" data-target="#tab_2" data-toggle="tab"> Completed Tests </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" data-target="#tab_1" data-toggle="tab"> My Notes </a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane" id="tab_1">
+                                                    <!-- TASK COMMENTS -->
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <ul class="media-list">
+                                                                <li class="media">
+                                                                    <a class="pull-left" href="#">
+                                                                        <img class="todo-userpic" src="{{settings.assetsPath}}/pages/media/users/avatar8.jpg" width="27px" height="27px"> </a>
+                                                                    <div class="media-body todo-comment">
+                                                                        <button type="button" class="todo-comment-btn btn btn-circle btn-default btn-xs">&nbsp; Reply &nbsp;</button>
+                                                                        <p class="todo-comment-head">
+                                                                            <span class="todo-comment-username">Christina Aguilera</span> &nbsp;
+                                                                            <span class="todo-comment-date">17 Sep 2014 at 2:05pm</span>
+                                                                        </p>
+                                                                        <p class="todo-text-color"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. </p>
+                                                                        <!-- Nested media object -->
+                                                                        <div class="media">
+                                                                            <a class="pull-left" href="#">
+                                                                                <img class="todo-userpic" src="{{settings.assetsPath}}/pages/media/users/avatar4.jpg" width="27px" height="27px"> </a>
+                                                                            <div class="media-body">
+                                                                                <p class="todo-comment-head">
+                                                                                    <span class="todo-comment-username">Carles Puyol</span> &nbsp;
+                                                                                    <span class="todo-comment-date">17 Sep 2014 at 4:30pm</span>
+                                                                                </p>
+                                                                                <p class="todo-text-color"> Thanks so much my dear! </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END TASK COMMENTS -->
+                                                    <!-- TASK COMMENT FORM -->
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <ul class="media-list">
+                                                                <li class="media">
+                                                                    <a class="pull-left" href="#">
+                                                                        <img class="todo-userpic" src="{{settings.assetsPath}}/pages/media/users/avatar4.jpg" width="27px" height="27px"> </a>
+                                                                    <div class="media-body">
+                                                                        <textarea class="form-control todo-taskbody-taskdesc" rows="4" placeholder="Type comment..."></textarea>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <button type="button" class="pull-right btn btn-sm btn-circle green"> &nbsp; Submit &nbsp; </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END TASK COMMENT FORM -->
+                                                </div>
+                                                <div class="tab-pane active" id="tab_2">
+                                                    <ul class="todo-task-history" ng-repeat="untask in user.completedtests">
+                                                        <li>
+                                                            <div class="todo-task-history-date"> {{untask.pivot.completed_date}} </div>
+                                                            <div class="todo-task-history-desc"> {{untask.description}} </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END TODO CONTENT -->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTENT-->
+<script>
+    AppTodo2.init(); // init todo page
+</script>

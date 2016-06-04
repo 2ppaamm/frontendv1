@@ -1,0 +1,162 @@
+
+            <!-- BEGIN CLASSES -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN CLASSES PORTLET-->
+                    <div class="portlet light portlet-fit bordered">
+                       <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-microphone font-dark hide"></i>
+                                 <span class="caption-subject bold font-dark uppercase"> Learn: Classes Available</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12" ng-repeat="house in houses">
+                                    <div class="mt-widget-2">
+                                        <div class="mt-head" style="background-image: url({{house.image}});">
+                                            <div class="mt-head-label">
+                                                <button type="button" class="btn btn-success">{{house.house}}</button>
+                                            </div>
+                                            <div class="mt-head-user">
+                                                <div class="mt-head-user-img">
+                                                    <img src="{{house.created_by.image}}" /> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-body">
+                                            <h3 class="mt-body-title"> by {{house.created_by.name}} </h3>
+                                            <p class="mt-body-description"> {{house.description}} </p>
+                                            <ul class="mt-body-stats">
+                                                <li class="font-green">
+                                                    <i class="fa fa-hourglass-start"></i> {{house.start_date}}
+                                                </li>
+                                                <li class="font-red">
+                                                    <i class="fa fa-hourglass-end"></i> {{house.end_date}}</li>
+                                            </ul>
+                                            <div class="mt-body-actions">
+                                                <div class="btn-group btn-group btn-group-justified">
+                                                    <a class="btn" data-toggle="modal" href="#enrol-{{house.id}}">
+                                                        <i class="fa fa-certificate"></i> Enrol </a>
+                                                    <a class="btn" data-toggle="modal" href="#tracks-{{house.id}}">
+                                                        <i class="fa fa-road"></i> View Tracks </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal for Tracks of classes -->
+                                    <div id="tracks-{{house.id}}" class="modal fade" tabindex="-1" data-width="760">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="mt-element-list">
+                                                    <div class="mt-list-head list-default green-haze">
+                                                        <div class="row">
+                                                            <div class="col-xs-8">
+                                                                <div class="list-head-title-container">
+                                                                    <h3 class="list-title uppercase sbold">{{house.house}} </h3>
+                                                                    <div class="list-date">by {{house.created_by.name}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <div class="list-head-summary-container">
+                                                                    <div class="list-pending">
+                                                                        <div class="badge badge-default list-count">3</div>
+                                                                        <div class="list-label">Pending</div>
+                                                                    </div>
+                                                                    <div class="list-done">
+                                                                        <div class="list-count badge badge-default last">2</div>
+                                                                        <div class="list-label">Completed</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-list-container list-default">
+                                                        <div class="mt-list-title uppercase">
+                                                           Tracks in {{house.description}}
+                                                        </div>
+                                                        <ul>
+                                                            <li class="mt-list-item">
+                                                                <div class="list-item-content col-lg-6" ng-repeat="track in house.tracks">
+                                                                    <h3 class="uppercase bold">
+                                                                        <a href="javascript:;">{{track.track}}</a>
+                                                                    </h3>
+                                                                    <p ng-repeat = "skill in track.skills">{{skill.skill}}</p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                <!-- Modal for enrolment form -->
+                                    <div id="enrol-{{house.id}}" class="modal fade" tabindex="-1" data-width="760" my-Modal>
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="portlet light portlet-fit portlet-form">
+                                                    <div class="portlet-title">
+                                                        <div class="caption">
+                                                            <i class=" icon-layers font-green"></i>
+                                                            <h3>Enrolment</h3>
+                                                            <span class="caption-subject font-green sbold uppercase">{{house.house}}</span>
+                                                            <span class="caption-helper"> by </span><span class="caption-subject font-green sbold uppercase">{{house.created_by.name}}</span><span class="caption-helper"> from </span><span class="caption-subject font-green sbold uppercase">{{house.start_date}} to {{house.end_date}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body" >
+                                                        <!-- BEGIN FORM-->
+                                                        <form class="form-horizontal" id="enrolForm" ng-submit="processLearn()">
+                                                            <div class="form-body">
+                                                                <div class="alert alert-danger" ng-if="errormsg">
+                                                                    <button class="close" data-close="alert"></button> 
+                                                                    <p ng-repeat="(field,error) in errormsg">{{error}}</p>
+                                                                </div>
+                                                                <div class="alert alert-success" ng-if="formsuccess">
+                                                                    <button class="close" data-close="alert"></button> {{formsuccess}} 
+                                                                </div>
+                                                            </div>
+                            
+                                                            <div class="form-group form-mt-checkbox">
+                                                                <label class="col-md-3 control-label">Roles</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="mt-checkbox-inline">
+                                                                        <label class="mt-checkbox" ng-repeat = "role in roles">
+                                                                            <input type="checkbox"  value="role.id" ng-model="enrol.role_id"> {{role.role}}
+                                                                            <span></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-actions">
+                                                                <div class="row">
+                                                                    <div class="col-md-offset-3 col-md-9">
+                                                                        <button type="submit" class="btn green">Enrol</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <!-- END FORM-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END HOUSES PORTLET -->
+                </div>
+            </div>
+            <!-- END CLASSES --> 

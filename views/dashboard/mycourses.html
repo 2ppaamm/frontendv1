@@ -1,0 +1,213 @@
+            <!-- BEGIN COURSES -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN CLASSES PORTLET-->
+                    <div class="portlet light portlet-fit bordered">
+                       <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-microphone font-dark hide"></i>
+                                 <span class="caption-subject bold font-dark uppercase"> Teach: Courses Available</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12" ng-repeat="course in courses">
+                                    <div class="mt-widget-2">
+                                        <div class="mt-head" style="background-image: url({{course.image}});">
+                                            <div class="mt-head-label">
+                                                <button type="button" class="btn btn-success">{{course.course}}</button>
+                                            </div>
+                                                <div class="mt-head-user">
+                                                    <div class="mt-head-user-img">
+                                                        <img src="{{course.created_by.image}}" /> 
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="mt-body">
+                                            <h3 class="mt-body-title"> by {{course.created_by.name}} </h3>
+                                            <p class="mt-body-description"> {{course.description}} </p>
+                                            <div class="mt-body-actions">
+                                                <div class="btn-group btn-group btn-group-justified">
+                                                    <a class="btn" data-toggle="modal" href="#teach">
+                                                        <i class="fa fa-certificate"></i> Teach </a>
+                                                    <a class="btn" data-toggle="modal" href="#outline-{{course.id}}">
+                                                        <i class="fa fa-pencil"></i> Outline </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal for Outline of courses -->
+                                    <div id="outline-{{course.id}}" class="modal fade" tabindex="-1" data-width="760">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="mt-element-list">
+                                                    <div class="mt-list-head list-default green-haze">
+                                                        <div class="row">
+                                                            <div class="col-xs-8">
+                                                                <div class="list-head-title-container">
+                                                                    <h3 class="list-title uppercase sbold">{{course.course}} </h3>
+                                                                    <div class="list-date">by {{course.created_by.name}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <div class="list-head-summary-container">
+                                                                    <div class="list-pending">
+                                                                        <div class="badge badge-default list-count">3</div>
+                                                                        <div class="list-label">Pending</div>
+                                                                    </div>
+                                                                    <div class="list-done">
+                                                                        <div class="list-count badge badge-default last">2</div>
+                                                                        <div class="list-label">Completed</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-list-container list-default">
+                                                        <div class="mt-list-title uppercase">
+                                                           Tracks in {{course.description}}
+                                                        </div>
+                                                        <ul>
+                                                            <li class="mt-list-item">
+                                                                <div class="list-item-content col-lg-6" ng-repeat="track in course.tracks">
+                                                                    <h3 class="uppercase bold">
+                                                                        <a href="javascript:;">{{track.track}}</a>
+                                                                    </h3>
+                                                                    <p ng-repeat = "skill in track.skills">{{skill.skill}}</p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal for Create a class form -->
+                                <div id="teach" class="modal fade" tabindex="-1" data-width="760" my-Modal>
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="portlet light portlet-fit portlet-form">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class=" icon-layers font-green"></i>
+                                                        <span class="caption-subject font-green sbold uppercase">Start a New Class</span>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body" >
+                                                    <!-- BEGIN FORM-->
+                                                    <form class="form-horizontal" id="teachForm" ng-submit="processTeach()">
+                                                        <div class="form-body">
+                                                            <div class="alert alert-danger" ng-if="errormsg">
+                                                                <button class="close" data-close="alert"></button> 
+                                                                <p ng-repeat="(field,error) in errormsg">{{error}}</p>
+                                                            </div>
+                                                            <div class="alert alert-success" ng-if="formsuccess">
+                                                                <button class="close" data-close="alert"></button> {{formsuccess}} </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="col-md-3 control-label">Course</label>
+                                                                <div class="col-md-6">
+                                                                    <ui-select ng-model="house.course_id" theme="bootstrap">
+                                                                        <ui-select-match placeholder="Select or search a course in the list...">{{$select.selected.course}}</ui-select-match>
+                                                                        <ui-select-choices group-by="'course'" repeat="course.id as course in courses | filter: $select.search">
+                                                                            <span ng-bind-html="course.course | highlight: $select.search"></span>
+                                                                            <small ng-bind-html="course.created_by.name | highlight: $select.search"></small>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input" hidden>
+                                                                <label class="col-md-3 control-label" for="form_control_1">Role
+                                                                </label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control"  name="role" ng-model="house.role_id" value="5">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="col-md-3 control-label" for="form_control_1">Class Name
+                                                                    <span class="required">*</span>
+                                                                </label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control" placeholder="Class Name" name="house" ng-model="house.house">
+                                                                        <div class="form-control-focus"> </div>
+                                                                        <span class="help-block">Enter name of class</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="col-md-3 control-label" for="form_control_1">Image Link for Class
+                                                                    <span class="required">*</span>
+                                                                </label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control" placeholder="The url should start with 'http://'" name="url" ng-model="house.image">
+                                                                        <div class="form-control-focus"> </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="col-md-3 control-label">Instructor</label>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" class="form-control" placeholder="{{user.name}}" disabled> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="col-md-3 control-label" for="form_control_1">Class Description</label>
+                                                                <div class="col-md-9">
+                                                                    <textarea class="form-control" name="memo" rows="3" ng-model="house.description"></textarea>
+                                                                    <div class="form-control-focus">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-line-input">
+                                                                <label class="control-label col-md-3">Duration of class</label>
+                                                                <div class="col-md-3">
+                                                                    <div class="input-group input-large date-picker input-daterange" data-date="2016-01-01" data-date-format="yyyy-mm-dd">
+                                                                        <input type="text" class="form-control" name="from" ng-model="house.start_date">
+                                                                        <span class="input-group-addon"> to </span>
+                                                                        <input type="text" class="form-control" name="to" ng-model="house.end_date"> 
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                    <span class="help-block"> Select date range </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-md-radios">
+                                                                <label class="col-md-3 control-label" for="form_control_1">Privacry Status</label>
+                                                                <div class="col-md-9">
+                                                                    <div class="md-radio-inline">
+                                                                        <div class="md-radio" ng-repeat="status in statuses">
+                                                                            <input type="radio" id="status-{{status.id}}" name="status-{{status.id}}" value="{{status.id}}"" class="md-radiobtn" ng-model="house.status_id">
+                                                                            <label for="status-{{status.id}}">
+                                                                            <span></span>
+                                                                            <span class="check"></span>
+                                                                            <span class="box"></span> {{status.status}} 
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-actions">
+                                                            <div class="row">
+                                                                <div class="col-md-offset-3 col-md-9">
+                                                                    <button type="submit" class="btn green">Create Class</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- END FORM-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END COURSES PORTLET -->
+                </div>
+            </div>
+            <!-- END COURSES -->                    
