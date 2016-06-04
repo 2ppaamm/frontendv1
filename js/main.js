@@ -93,7 +93,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 ------------------------------------*/
 
 .factory('users', function($resource){
-    var resource = $resource('http://localhost:8000/users/:id', {id: '@id'}, {
+    var resource = $resource('http://api.japher.org/users/:id', {id: '@id'}, {
         update: {method: 'PUT'}
     });
     return {
@@ -113,7 +113,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 })
 
 .factory('mainInfo', function($http) { 
-    return  $http.get('http://localhost:8000/api/protected');
+    return  $http.get('http://api.japher.org/api/protected');
 })
 
 /* Setup App Main Controller */
@@ -151,7 +151,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         }, function(profile, token) {
             store.set('profile', profile);
             store.set('token', token);
-            $http.get('http://localhost:8000/api/protected').then(function(response) {
+            $http.get('http://api.japher.org/api/protected').then(function(response) {
                 //$rootScope.user = response.data;
                 store.set('allgiftedmathuser', response.data.user);
                 $scope.user = store.get('allgiftedmathuser');
