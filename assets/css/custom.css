@@ -1,0 +1,13 @@
+#loginbtn {
+	width: 6em;
+	color: #aeb2c4;
+}
+
+#loginbtn a:hover {
+	text-decoration: none;
+	color: white;
+}
+
+.repeat-accordion {
+	margin-bottom: 5px;
+}

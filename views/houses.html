@@ -1,0 +1,115 @@
+<div ng-controller="HouseController as showCase">
+<!-- BEGIN PAGE BREADCRUMB -->
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="/dashboard">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a href="#">My Classes</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li class="active"> {{currentHouse.house}}</li>
+</ul>
+<!-- END PAGE BREADCRUMB -->
+<!-- BEGIN MAIN CONTENT -->
+
+<div class="portlet box light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-bar-chart font-blue-madison"></i>
+            <span class="caption-subject font-blue-madison bold uppercase">Course breakdown</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <form class="form-inline" ng-submit="showCase.addTrack()">
+            <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="row-border hover">
+                <thead>
+                <tr>
+                    <th>
+                        <div class="form-group">
+                            <label>
+                                <input class="form-control" type="number" name="id" ng-model="showCase.track2Add.level_id" value="">
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="form-group">
+                            <label>
+                                <input type="text" class="form-control" name="track" ng-model="showCase.track2Add.track" value="">            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="form-group">
+                            <label>
+                                <input type="text" class="form-control" name="description" ng-model="showCase.track2Add.description" value="">
+                            </label>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                        <thead>
+                            <tr>
+                                <th> Track </th>
+                                <th> Skill </th>
+                            </tr>
+                        </thead>
+                <tbody>
+                <tr ng-repeat="track in showCase.tracks">
+                    <td>
+                        {{ track.track }}
+                    </td>
+                    <td>
+                        <div class="btn-toolbar margin-bottom-25" ng-repeat="skill in track.skills">
+
+                            <div class="btn-group pull-right">
+                                <button type="button" ng-if="skill.own_skill_results.passed" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                                {{skill.skill}}
+                                <button type="button" class="btn dark btn-xs btn-outline dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-life-buoy"></i>
+                                    </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li ng-if="skill.skill_score[0].noOfTries">
+                                    <a href="#"><i class="fa fa-pencil">
+                                        Attempted {{skill.skill_score[0].noOfTries}} times.
+                                        <p>Last Attempted: {{skill.skill_score.skill_test_date}}</p>
+                                        <hr></i></a>
+                                    </li>
+                                    <li ng-if="skill.lesson_link">
+                                        <a href="{{skill.lesson_link}}">
+                                            <i class="fa fa-youtube-play"></i> Watch Video Lesson</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-question"></i> Take a quiz</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <button type="button" ng-click="showCase.modifyPerson($index)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                        <button type="button" ng-click="showCase.removePerson($index)" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                        <button type="button" class="right btn btn-info" ng-if="track.track_score.length">Score: {{track.track_score[0].track_maxile}}</button>
+                        <button type="button" ng-if="track.track_score[0].track_passed" class="btn btn-success"><i class="fa fa-check"></i></button>
+                    
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>    
+</div>
+
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+    TableDatatablesManaged.init();
+</script>
+<!-- END MAIN JS -->

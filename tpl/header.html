@@ -34,8 +34,7 @@
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 
                 <li class="dropdown dropdown-extended quick-sidebar-toggler"       ng-if="!auth.isAuthenticated" ng-click="login()">
-                    <span>Login</span>
-                    <i class="icon-login"></i>
+                    <span id="loginbtn">Login</span>
                 </li>
                 <li class="dropdown dropdown-user dropdown-dark" ng-if="auth.isAuthenticated">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -76,7 +75,7 @@
                 </li>
                 <!-- END USER LOGIN DROPDOWN -->
                 <!-- BEGIN QUICK SIDEBAR DROPDOWN -->
-                <li class="dropdown dropdown-extended quick-sidebar-toggler">
+                <li class="dropdown dropdown-extended quick-sidebar-toggler" ng-if="auth.isAuthenticated">
                     <span class="sr-only">Toggle Quick Sidebar</span>
                     <i class="icon-arrow-right"></i>
                 </li>

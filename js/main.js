@@ -9,7 +9,8 @@ var AllGiftedApp = angular.module("AllGiftedApp", [
     "ui.bootstrap", 
     "oc.lazyLoad",
     "ngResource",  
-    "ngSanitize"
+    "ngSanitize",
+    "datatables"
 ])
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -93,7 +94,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 ------------------------------------*/
 
 .factory('users', function($resource){
-    var resource = $resource('http://localhost:8000/users/:id', {id: '@id'}, {
+    var resource = $resource('http://api.japher.org/users/:id', {id: '@id'}, {
         update: {method: 'PUT'}
     });
     return {
@@ -112,20 +113,16 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
     };
 })
 
-.factory('mainInfo', function($http) { 
-    return  $http.get('http://localhost:8000/api/protected');
-})
-
 /* Setup App Main Controller */
-.controller('AppController', ['$scope', '$rootScope','mainInfo', 'users','auth','store', '$location','$http', function($scope, $rootScope, mainInfo, users, auth, store, $location, $http) {
+.controller('AppController', ['$scope', '$rootScope', 'users','auth','store', '$location','$http', function($scope, $rootScope, users, auth, store, $location, $http) {
     $scope.$on('$viewContentLoaded', function() {
         App.initComponents(); // init core components
         Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
     });
 
     $scope.auth = auth;
-
-    mainInfo.then(function(response){
+    
+    $http.get('http://api.japher.org/api/protected').then(function(response){
         $scope.now = new Date();
         $scope.user = response.data.user;
         $scope.statuses = response.data.statuses;
@@ -152,7 +149,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         }, function(profile, token) {
             store.set('profile', profile);
             store.set('token', token);
-            $http.get('http://localhost:8000/api/protected').then(function(response) {
+            $http.get('http://api.japher.org/api/protected').then(function(response) {
                 //$rootScope.user = response.data;
                 store.set('allgiftedmathuser', response.data.user);
                 $scope.user = store.get('allgiftedmathuser');
@@ -261,19 +258,21 @@ initialization can be disabled and Layout.init() should be called on page load c
                         name: 'AllGiftedApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
+                            'assets/js/package/amcharts.js',
+                            'assets/js/package/radar.js',
                             'assets/css/package/bootstrap-modal-bs3patch.css',
                             'assets/css/package/bootstrap-modal.css',
                             'assets/css/package/bootstrap-datepicker3.css',
                             'assets/css/package/select.min.css',
 
-                            'assets/js/package/amcharts.js',
-                            'assets/js/package/radar.js',
-                            'assets/js/package/serial.js',
-                            'assets/js/package/gauge.js',
+ 
+                            'assets/js/package/table-datatables-managed.min.js',
                             'assets/js/package/bootstrap-modalmanager.js',
                             'assets/js/package/bootstrap-modal.js',
                             'assets/js/package/bootstrap-datepicker.js',
                             'assets/js/package/select.min.js',
+                            'assets/js/package/jquery-ui.min.js',
+                            'assets/js/package/bootstrap-tabdrop.js',
                             'assets/js/theme/components-date-time-pickers.min.js',
                             'assets/js/theme/dashboard.min.js',
                             'js/controllers/DashboardController.js',
@@ -284,212 +283,23 @@ initialization can be disabled and Layout.init() should be called on page load c
             }
         })
 
-        // AngularJS plugins
-        .state('fileupload', {
-            url: "/file_upload.html",
-            templateUrl: "views/file_upload.html",
-            data: {pageTitle: 'AngularJS File Upload'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'angularFileUpload',
-                        files: [
-                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                        ] 
-                    }, {
-                        name: 'AllGiftedApp',
-                        files: [
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
-
-        // UI Select
-        .state('uiselect', {
-            url: "/ui_select.html",
-            templateUrl: "views/ui_select.html",
-            data: {pageTitle: 'AngularJS Ui Select'},
-            controller: "UISelectController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'ui.select',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.css',
-                            '../assets/global/plugins/angularjs/plugins/ui-select/select.min.js'
-                        ] 
-                    }, {
-                        name: 'AllGiftedApp',
-                        files: [
-                            'js/controllers/UISelectController.js'
-                        ] 
-                    }]);
-                }]
-            }
-        })
-
-        // UI Bootstrap
-        .state('uibootstrap', {
-            url: "/ui_bootstrap.html",
-            templateUrl: "views/ui_bootstrap.html",
-            data: {pageTitle: 'AngularJS UI Bootstrap'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'AllGiftedApp',
-                        files: [
-                            'js/controllers/GeneralPageController.js'
-                        ] 
-                    }]);
-                }] 
-            }
-        })
-
-        // Tree View
-        .state('tree', {
-            url: "/tree",
-            templateUrl: "views/tree.html",
-            data: {pageTitle: 'jQuery Tree View'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'AllGiftedApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/jstree/dist/themes/default/style.min.css',
-
-                            '../assets/global/plugins/jstree/dist/jstree.min.js',
-                            '../assets/pages/scripts/ui-tree.min.js',
-                            'js/controllers/GeneralPageController.js'
-                        ] 
-                    }]);
-                }] 
-            }
-        })     
-
-        // Form Tools
-        .state('formtools', {
-            url: "/form-tools",
-            templateUrl: "views/form_tools.html",
-            data: {pageTitle: 'Form Tools'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'AllGiftedApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                            '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                            '../assets/global/plugins/typeahead/typeahead.css',
-
-                            '../assets/global/plugins/fuelux/js/spinner.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                            '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-                            '../assets/global/plugins/jquery.input-ip-address-control-1.0.min.js',
-                            '../assets/global/plugins/bootstrap-pwstrength/pwstrength-bootstrap.min.js',
-                            '../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
-                            '../assets/global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
-                            '../assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js',
-                            '../assets/global/plugins/typeahead/handlebars.min.js',
-                            '../assets/global/plugins/typeahead/typeahead.bundle.min.js',
-                            '../assets/pages/scripts/components-form-tools-2.min.js',
-
-                            'js/controllers/GeneralPageController.js'
-                        ] 
-                    }]);
-                }] 
-            }
-        })        
-
-        // Date & Time Pickers
-        .state('pickers', {
-            url: "/pickers",
-            templateUrl: "views/pickers.html",
-            data: {pageTitle: 'Date & Time Pickers'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'AllGiftedApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/clockface/css/clockface.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                            '../assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css',
-                            '../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css',
-
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                            '../assets/global/plugins/clockface/js/clockface.js',
-                            '../assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js',
-                            '../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',
-
-                            '../assets/pages/scripts/components-date-time-pickers.min.js',
-
-                            'js/controllers/GeneralPageController.js'
-                        ] 
-                    }]);
-                }] 
-            }
-        })
-
-        // Custom Dropdowns
-        .state('dropdowns', {
-            url: "/dropdowns",
-            templateUrl: "views/dropdowns.html",
-            data: {pageTitle: 'Custom Dropdowns'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'AllGiftedApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            '../assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js',
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-
-                            '../assets/pages/scripts/components-bootstrap-select.min.js',
-                            '../assets/pages/scripts/components-select2.min.js',
-
-                            'js/controllers/GeneralPageController.js'
-                        ] 
-                    }]);
-                }] 
-            }
-        }) 
-
-        // Advanced Datatables
-        .state('datatablesAdvanced', {
-            url: "/datatables/managed.html",
-            templateUrl: "views/datatables/managed.html",
-            data: {pageTitle: 'Advanced Datatables'},
-            controller: "GeneralPageController",
+        // Class Page
+        .state('housesDetail', {
+            url: "/houses/:houseID",
+            templateUrl: "views/houses.html",
+            data: {pageTitle: 'Classes'},
+            controller: "HouseController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'AllGiftedApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [                             
-                            '../assets/global/plugins/datatables/datatables.min.css', 
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
+                            'assets/css/package/datatables.min.css', 
+                            'assets/css/package/datatables.bootstrap.css',
 
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-
-                            '../assets/pages/scripts/table-datatables-managed.min.js',
-
+                            'assets/js/package/datatables.all.min.js',
+                            'assets/js/package/table-datatables-managed.min.js',
                             'js/controllers/GeneralPageController.js'
                         ]
                     });
@@ -497,33 +307,6 @@ initialization can be disabled and Layout.init() should be called on page load c
             }
         })
 
-        // Ajax Datetables
-        .state('datatablesAjax', {
-            url: "/datatables/ajax.html",
-            templateUrl: "views/datatables/ajax.html",
-            data: {pageTitle: 'Ajax Datatables'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'AllGiftedApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/datatables/datatables.min.css', 
-                            '../assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css',
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-
-                            '../assets/global/plugins/datatables/datatables.all.min.js',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/scripts/datatable.min.js',
-
-                            'js/scripts/table-ajax.js',
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    });
-                }]
-            }
-        })
 
         // User Profile
         .state("profile", {
@@ -537,13 +320,13 @@ initialization can be disabled and Layout.init() should be called on page load c
                         name: 'AllGiftedApp',  
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/pages/css/profile.css',
+                            'assets/css/package/bootstrap-fileinput.css',
+                            'assets/css/package/profile.css',
                             
-                            '../assets/global/plugins/jquery.sparkline.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            'assets/js/package/jquery-sparkline.min.js',
+                            'assets/js/package/bootstrap-fileinput.js',
 
-                            '../assets/pages/scripts/profile.min.js',
+                            'assets/js/package/profile.min.js',
 
                             'js/controllers/UserProfileController.js'
                         ]                    
@@ -572,36 +355,6 @@ initialization can be disabled and Layout.init() should be called on page load c
             templateUrl: "views/profile/help.html",
             data: {pageTitle: 'User Help'}      
         })
-
-        // Todo
-        .state('todo', {
-            url: "/todo",
-            templateUrl: "views/todo.html",
-            data: {pageTitle: 'Todo'},
-            controller: "TodoController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({ 
-                        name: 'AllGiftedApp',  
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/apps/css/todo-2.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-                            
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                            '../assets/apps/scripts/todo-2.min.js',
-
-                            'js/controllers/TodoController.js'  
-                        ]                    
-                    });
-                }]
-            }
-        });
 
         jwtInterceptorProvider.tokenGetter = function(store) {
           return store.get('token');
@@ -642,4 +395,41 @@ initialization can be disabled and Layout.init() should be called on page load c
       }
     });
 
+}])
+
+.controller('HouseController', ['$resource', '$scope', 'DTOptionsBuilder', 'DTColumnDefBuilder','$stateParams',function($resource, $scope, DTOptionsBuilder, DTColumnDefBuilder,$stateParams) {
+
+    var vm = this;
+    $scope.currentHouse = $scope.user.enrolled_classes[$stateParams.houseID];
+    vm.tracks = $scope.user.enrolled_classes[$stateParams.houseID].tracks;
+    vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers');
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(1),
+        DTColumnDefBuilder.newColumnDef(2),
+        DTColumnDefBuilder.newColumnDef(3).notSortable()
+    ];
+    vm.track2Add = _buildTrack2Add(1);
+    vm.addTrack = addTrack;
+    vm.modifyTrack = modifyTrack;
+    vm.removeTrack = removeTrack;
+    
+    function _buildTrack2Add(id) {
+        return {
+            level_id: id,
+            track: 'Foo' + id,
+            description: 'Bar' + id
+        };
+    }
+    function addTrack() {
+        vm.tracks.push(angular.copy(vm.track2Add));
+        vm.track2Add = _buildTrack2Add(vm.track2Add.level_id + 1);
+    }
+    function modifyTrack(index) {
+        vm.tracks.splice(index, 1, angular.copy(vm.track2Add));
+        vm.track2Add = _buildTrack2Add(vm.track2Add.id + 1);
+    }
+    function removeTrack(index) {
+        vm.tracks.splice(index, 1);
+    }
 }]);
