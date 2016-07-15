@@ -4,7 +4,7 @@ angular.module('AllGiftedApp').controller('LearnFormController', function($scope
   	$scope.enrol = {};
   	$scope.enrol.roles = $scope.role;
 	$scope.processEnrol = function() {
-	 	$http.post('http://localhost:8000/houses/'+$scope.enrol.house_id+'/users', $scope.enrol)
+	 	$http.post('http://api.japher.org/houses/'+$scope.enrol.house_id+'/users', $scope.enrol)
 	 	.then(function(response) {
 			delete $scope.learnformsuccess;
 			delete $scope.learnerrormsg;
@@ -20,7 +20,7 @@ angular.module('AllGiftedApp').controller('LearnFormController', function($scope
 .controller('TeachFormController', function($scope, $http) {	
 	$scope.house = {};
 	$scope.processTeach = function() {
-	 	$http.post('http://localhost:8000/houses', JSON.stringify($scope.house)).then(function(response) {
+	 	$http.post('http://api.japher.org/houses', JSON.stringify($scope.house)).then(function(response) {
 	 		delete $scope.teacherrormsg;
 	 		response.data.message.length>0 ? $scope.teachformsuccess=response.data.message: null;
 	 		response.data.errormessage.length>0 ? $scope.teacherrormsg = response.data.errormessage: null;
