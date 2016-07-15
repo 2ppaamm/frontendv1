@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="stat-number">
                                     <div class="title"> Maxile Score </div>
-                                    <div class="number"> {{user.maxile_level}} </div>
+                                    <div class="number"> {{user.maxile_level || "0"}} </div>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="stat-number">
                                     <div class="title"> Game Score </div>
-                                    <div class="number"> {{user.game_level}} </div>
+                                    <div class="number"> {{user.game_level || "0"}} </div>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                 <h4>{{house.house}}</h4>
                             </div>
                             <div class="col-sm-6">
-                                <progressbar class="progress-striped" value="22" type="green">22%</progressbar>
+                                <progressbar class="progress-striped" value="correctness" type="green">{{correctness}}%</progressbar>
                             </div>
                         </div>
                     </div>
@@ -70,8 +70,8 @@
             <div class="portlet light">
                 <div class="portlet-title tabbable-line">
                     <div class="caption caption-md">
-                        <i class="icon-globe theme-font hide"></i>
-                        <span class="caption-subject font-blue-madison bold uppercase">Tests and Quizzes</span>
+                        <i class="icon-globe theme-font hide"></i> 
+                       <span class="caption-subject font-blue-madison bold uppercase">Your Activities</span>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -79,7 +79,7 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1_1">
                             <div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                <ul class="feeds">
+                                <ul class="feeds" ng-repeat="log in logs">
                                     <li>
                                         <div class="col1">
                                             <div class="cont">
@@ -89,418 +89,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="cont-col2">
-                                                    <div class="desc"> You have 4 pending quizzes.
-                                                    </div>
+                                                    <div class="desc"> {{log.name}} </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col2">
-                                            <div class="date"> Just now </div>
+                                            <div class="date"> {{log.updated_at}} </div>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New Pokemon Game just launched! </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> 20 mins </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-success">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Completed test1. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 40 mins </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-warning">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> New group created. Pending manager review. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 5 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Order payment failed. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 18 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-default">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> New application received. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 21 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Dev90 web server restarted. Pending overall system check. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 22 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-default">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> New member registered. Pending approval </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 21 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> L45 Network failure. Schedule maintenance. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 22 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-default">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Order canceled with failed payment. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 21 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Web-A2 clound instance created. Schedule full scan. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 22 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-default">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Member canceled. Schedule account review. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 21 hours </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-info">
-                                                        <i class="fa fa-bullhorn"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> New order received. Please take care of it. </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 22 hours </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab_1_2">
-                            <div class="scroller" style="height: 337px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                <ul class="feeds">
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New order received </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> 10 mins </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="col1">
-                                            <div class="cont">
-                                                <div class="cont-col1">
-                                                    <div class="label label-sm label-danger">
-                                                        <i class="fa fa-bolt"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="cont-col2">
-                                                    <div class="desc"> Order #24DOP4 has been rejected.
-                                                        <span class="label label-sm label-danger "> Take action
-                                                            <i class="fa fa-share"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col2">
-                                            <div class="date"> 24 mins </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="col1">
-                                                <div class="cont">
-                                                    <div class="cont-col1">
-                                                        <div class="label label-sm label-success">
-                                                            <i class="fa fa-bell-o"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cont-col2">
-                                                        <div class="desc"> New user registered </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col2">
-                                                <div class="date"> Just now </div>
-                                            </div>
-                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -550,7 +145,7 @@
                                         <div class="mt-head" style="background-image: url({{house.image}});">
                                             <div class="mt-head-label">
                                                 <button type="button" class="btn btn-success">
-                                                    My Score: {{house.as_student[0].pivot.my_score}}</button>
+                                                    My Score: {{house.as_student[0].maxile_level || 0}}</button>
                                             </div>
                                             <div class="mt-head-user">
                                                 <div class="mt-head-user-img">
@@ -559,8 +154,8 @@
                                             </div>
                                         </div>
                                         <div class="mt-body">
-                                            <h3 class="mt-body-title"> <span ng-repeat="role in house.user_roles"> {{role.role}} </span></h3>
-                                            <p class="mt-body-description"> {{house.description}} </p>
+                                            <p class="mt-body-title"> <span ng-repeat="role in house.as_student[0].roles"> {{role.role}} </span></p>
+                                            <h3 class="mt-body-description"> {{house.description}} </h3>
                                             <ul class="mt-body-stats">
                                                 <li class="font-green">
                                                     <i class="fa fa-hourglass-start"></i> {{house.start_date}}

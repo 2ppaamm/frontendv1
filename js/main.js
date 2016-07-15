@@ -122,13 +122,15 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
     $scope.auth = auth;
     
-    $http.get('http://api.japher.org/api/protected').then(function(response){
+    $http.get('http://localhost:8000/api/protected').then(function(response){
         $scope.now = new Date();
         $scope.user = response.data.user;
         $scope.statuses = response.data.statuses;
         $scope.houses = response.data.houses;
         $scope.courses = response.data.courses;
         $scope.roles = response.data.roles;
+        $scope.logs = response.data.logs;
+        $scope.correctness = response.data.correctness;
         store.set('allgiftedmathuser',$scope.user);
         $scope.profile = store.get('profile');
         $location.path('/dashboard');
@@ -158,6 +160,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
                 $scope.houses = response.data.houses;
                 $scope.courses = response.data.courses;
                 $scope.statuses = response.data.statuses;
+                $scope.logs = response.data.logs;
+                $scope.correctness = response.data.correctness;
                 $location.path('/dashboard');
             });
         }, function(error) {
@@ -243,6 +247,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 
         .state('home', {
           url: '/home',
+          data: {pageTitle: 'Home'},
           templateUrl: 'tpl/home.html'
         })
 
@@ -253,7 +258,13 @@ initialization can be disabled and Layout.init() should be called on page load c
             data: {pageTitle: 'Dashboard'},
             controller: "DashboardController",
             resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+/*                dashboardinfo: ['$http','$route', function($http, $route){
+                  return $http.get('http://localhost:8000/api/protected')
+                  .then(function(response){
+                    return response.data;
+                  })
+              }],
+*/                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'AllGiftedApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
