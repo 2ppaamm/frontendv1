@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <div class="table-scrollable table-scrollable-borderless" ng-controller="ProgressDemoCtrl">
-                        <div class="row" ng-repeat="house in user.enrolled_classes">
+                        <div class="row">
                             <div class="col-sm-6">
-                                <h4>{{house.house}}</h4>
+                                <h4>Accuracy</h4>
                             </div>
                             <div class="col-sm-6">
                                 <progressbar class="progress-striped" value="correctness" type="green">{{correctness}}%</progressbar>
@@ -78,7 +78,7 @@
                     <!--BEGIN TABS-->
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1_1">
-                            <div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
+                            <div class="scroller" style="height: 160px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                 <ul class="feeds" ng-repeat="log in logs">
                                     <li>
                                         <div class="col1">
@@ -234,8 +234,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <!-- Modal for enrolment form -->
+                                    </div                                <!-- Modal for enrolment form -->
                                     <div id="enrol-{{house.id}}" class="modal fade" tabindex="-1" data-width="760" my-Modal  ng-controller="LearnFormController">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
