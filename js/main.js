@@ -122,7 +122,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
     $scope.auth = auth;
     
-    $http.get('http://localhost:8000/api/protected').then(function(response){
+    $http.get('http://api.japher.org/api/protected').then(function(response){
         $scope.now = new Date();
         $scope.user = response.data.user;
         $scope.statuses = response.data.statuses;
@@ -259,7 +259,7 @@ initialization can be disabled and Layout.init() should be called on page load c
             controller: "DashboardController",
             resolve: {
 /*                dashboardinfo: ['$http','$route', function($http, $route){
-                  return $http.get('http://localhost:8000/api/protected')
+                  return $http.get('http://api.japher.org/api/protected')
                   .then(function(response){
                     return response.data;
                   })
