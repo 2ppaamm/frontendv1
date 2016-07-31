@@ -4,7 +4,7 @@ angular.module('AllGiftedApp').controller('LearnFormController', function($scope
   	$scope.enrol = {};
   	$scope.enrol.roles = $scope.role;
 	$scope.processEnrol = function() {
-	 	$http.post('http://api.japher.org/houses/'+$scope.enrol.house_id+'/users', $scope.enrol)
+	 	$http.post('http://localhost:8000/houses/'+$scope.enrol.house_id+'/users', $scope.enrol)
 	 	.then(function(response) {
 			delete $scope.learnformsuccess;
 			delete $scope.learnerrormsg;

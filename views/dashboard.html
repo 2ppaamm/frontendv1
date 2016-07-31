@@ -390,6 +390,9 @@
                                     </div>
                                     <!-- Modal for Outline of courses -->
                                     <div id="outline-{{course.id}}" class="modal fade" tabindex="-1" data-width="760">
+        <script type="text/javascript" async
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>    <!-- END HEAD -->
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                                         </div>
@@ -425,10 +428,10 @@
                                                         <ul>
                                                             <li class="mt-list-item">
                                                                 <div class="list-item-content col-lg-6" ng-repeat="track in course.tracks">
-                                                                    <h3 class="uppercase bold">
+                                                                    <ul class="uppercase bold">
                                                                         <a href="javascript:;">{{track.track}}</a>
-                                                                    </h3>
-                                                                    <p ng-repeat = "skill in track.skills">{{skill.skill}}</p>
+                                                                    <li ng-repeat = "skill in track.skills"> {{skill.skill}}</li>
+                                                                    </ul>
                                                                 </div>
                                                             </li>
                                                         </ul>

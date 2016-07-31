@@ -94,7 +94,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 ------------------------------------*/
 
 .factory('users', function($resource){
-    var resource = $resource('http://api.japher.org/users/:id', {id: '@id'}, {
+    var resource = $resource('http://localhost:8000/users/:id', {id: '@id'}, {
         update: {method: 'PUT'}
     });
     return {
@@ -122,7 +122,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
     $scope.auth = auth;
     
-    $http.get('http://api.japher.org/api/protected').then(function(response){
+    $http.get('http://localhost:8000/api/protected').then(function(response){
         $scope.now = new Date();
         $scope.user = response.data.user;
         $scope.statuses = response.data.statuses;
@@ -151,7 +151,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         }, function(profile, token) {
             store.set('profile', profile);
             store.set('token', token);
-            $http.get('http://api.japher.org/api/protected').then(function(response) {
+            $http.get('http://localhost:8000/api/protected').then(function(response) {
                 //$rootScope.user = response.data;
                 store.set('allgiftedmathuser', response.data.user);
                 $scope.user = store.get('allgiftedmathuser');
@@ -259,7 +259,7 @@ initialization can be disabled and Layout.init() should be called on page load c
             controller: "DashboardController",
             resolve: {
 /*                dashboardinfo: ['$http','$route', function($http, $route){
-                  return $http.get('http://api.japher.org/api/protected')
+                  return $http.get('http://localhost:8000/api/protected')
                   .then(function(response){
                     return response.data;
                   })
@@ -287,7 +287,8 @@ initialization can be disabled and Layout.init() should be called on page load c
                             'assets/js/theme/components-date-time-pickers.min.js',
                             'assets/js/theme/dashboard.min.js',
                             'js/controllers/DashboardController.js',
-                            'js/controllers/FormController.js'
+                            'js/controllers/FormController.js',
+                            'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML'
                         ],
                     });
                 }],
