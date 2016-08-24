@@ -122,19 +122,22 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
     $scope.auth = auth;
     
-    $http.get('http://quizapi.pamelalim.me/api/protected').then(function(response){
-        $scope.now = new Date();
-        $scope.user = response.data.user;
-        $scope.statuses = response.data.statuses;
-        $scope.houses = response.data.houses;
-        $scope.courses = response.data.courses;
-        $scope.roles = response.data.roles;
-        $scope.logs = response.data.logs;
-        $scope.correctness = response.data.correctness;
-        store.set('allgiftedmathuser',$scope.user);
-        $scope.profile = store.get('profile');
-        $location.path('/dashboard');
-    });
+    getProfile= function(){
+        $http.get('http://quizapi.pamelalim.me/api/protected').then(function(response){
+            $scope.now = new Date();
+            store.set('allgiftedmathuser', response.data.user);
+            $scope.user = store.get('allgiftedmathuser');
+            $scope.profile = store.get('profile');
+            $scope.roles = response.data.roles;
+            $scope.houses = response.data.houses;
+            $scope.courses = response.data.courses;
+            $scope.statuses = response.data.statuses;
+            $scope.logs = response.data.logs;
+            $scope.correctness = response.data.correctness;
+            $location.path('/dashboard');
+        });
+    }
+    getProfile();
 
     $scope.login = function() {
     // The auth service has a signin method that
@@ -151,19 +154,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
         }, function(profile, token) {
             store.set('profile', profile);
             store.set('token', token);
-            $http.get('http://quizapi.pamelalim.me/api/protected').then(function(response) {
-                //$rootScope.user = response.data;
-                store.set('allgiftedmathuser', response.data.user);
-                $scope.user = store.get('allgiftedmathuser');
-                $scope.profile = store.get('profile');
-                $scope.roles = response.data.roles;
-                $scope.houses = response.data.houses;
-                $scope.courses = response.data.courses;
-                $scope.statuses = response.data.statuses;
-                $scope.logs = response.data.logs;
-                $scope.correctness = response.data.correctness;
-                $location.path('/dashboard');
-            });
+            getProfile();
         }, function(error) {
            console.log(error);
            })
@@ -295,6 +286,19 @@ initialization can be disabled and Layout.init() should be called on page load c
             }
         })
 
+        // Game Page
+        .state('game', {
+            url: "/game",
+            templateUrl: "views/game.html",
+            data: {pageTitle: 'Game'}
+        })
+
+        // Quiz Page
+        .state('quiz', {
+            url: "/quiz",
+            templateUrl: "views/quiz.html",
+            data: {pageTitle: 'Game'}
+        })
         // Class Page
         .state('housesDetail', {
             url: "/houses/:houseID",
