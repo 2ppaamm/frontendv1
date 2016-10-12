@@ -376,6 +376,10 @@ initialization can be disabled and Layout.init() should be called on page load c
           return store.get('token');
         }
 
+        jwtOptionsProvider.config({
+          whiteListedDomains: ['math.all-gifted.com', 'localhost', 'quizapi.pamelalim.me', 'quiz.all-gifted.com', 'quizdev.pamelalim.me', 'raynoldgames.github.io/JapherMath']
+        });
+
         $httpProvider.interceptors.push('jwtInterceptor');
         
         authProvider.init({
