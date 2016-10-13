@@ -94,7 +94,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 ------------------------------------*/
 
 .factory('users', function($resource){
-    var resource = $resource('http://quizapi.pamelalim.me/users/:id', {id: '@id'}, {
+    var resource = $resource('http://localhost:8000/users/:id', {id: '@id'}, {
         update: {method: 'PUT'}
     });
     return {
@@ -123,7 +123,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
     $scope.auth = auth;
     
     getProfile= function(){
-        $http.get('http://quizapi.pamelalim.me/api/protected').then(function(response){
+        $http.get('http://localhost:8000/api/protected').then(function(response){
             $scope.now = new Date();
             store.set('allgiftedmathuser', response.data.user);
             $scope.user = store.get('allgiftedmathuser');
@@ -229,7 +229,7 @@ initialization can be disabled and Layout.init() should be called on page load c
 /* Setup Rounting For All Pages */
 
 .config(function($stateProvider, $urlRouterProvider, authProvider, $httpProvider, $locationProvider,
-  jwtInterceptorProvider) {
+  jwtInterceptorProvider, jwtOptionsProvider) {
 
     // Redirect any unmatched url
         $urlRouterProvider.otherwise("/dashboard");
@@ -250,7 +250,7 @@ initialization can be disabled and Layout.init() should be called on page load c
             controller: "DashboardController",
             resolve: {
 /*                dashboardinfo: ['$http','$route', function($http, $route){
-                  return $http.get('http://quizapi.pamelalim.me/api/protected')
+                  return $http.get('http://localhost:8000/api/protected')
                   .then(function(response){
                     return response.data;
                   })
@@ -377,7 +377,7 @@ initialization can be disabled and Layout.init() should be called on page load c
         }
 
         jwtOptionsProvider.config({
-          whiteListedDomains: ['math.all-gifted.com', 'localhost', 'quizapi.pamelalim.me', 'quiz.all-gifted.com', 'quizdev.pamelalim.me', 'raynoldgames.github.io/JapherMath']
+          whiteListedDomains: ['math.all-gifted.com', 'localhost', 'localhost:8000', 'quiz.all-gifted.com', 'quizdev.pamelalim.me', 'raynoldgames.github.io/JapherMath']
         });
 
         $httpProvider.interceptors.push('jwtInterceptor');
